@@ -1,0 +1,55 @@
+/*全局样式设置*/
+html, body, #app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.el-breadcrumb {
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.el-card {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+
+.el-footer {
+    text-align: center;
+    font-size: 15px;
+    color: #999999;
+    height: 30px !important;
+}
+
+/*这里主要是控制点击hamburger时，<div>与<a>标签外层不出现黑框*/
+div:focus{
+    outline: none;
+}
+a:focus,
+a:active {
+    outline: none;
+}
+
+/*去掉<a>标签下面的横线*/
+a,
+a:focus,
+a:hover {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}
+
+/*主要用于限制数据列表数据较长而省略显示的，控制鼠标光标显示全部信息的宽度限制*/
+.el-tooltip__popper {
+    max-width: 400px;
+}
+/*隐藏滚动条*/
+/*::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0;
+}*/
+
+/*富文本高度设置*/
+.ql-editor{
+    min-height: 300px;
+}
