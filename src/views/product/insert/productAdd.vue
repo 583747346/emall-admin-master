@@ -85,7 +85,7 @@
     //商品属性部分
     pcDetailPage: '',          //电脑端详情页
     mobileDetailPage: '',      //移动端详情页
-    prodcutAttribute: [],      //商品属性参数数组
+    prodcutAttributeParams: [], //商品属性参数数组
     albumPics: '',             //商品主图
     productSkus: [],           //sku列表
 
