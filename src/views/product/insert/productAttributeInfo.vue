@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="product-attribute-info">
     <el-form :model="productForm" ref="productAttrForm" label-width="120px" style="margin-top:20px;width: 100%"
              size="small">
@@ -29,15 +29,6 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="120px"
-            label="SKU编号"
-            align="center">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.skuCode"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="120px"
             label="销售价格"
             align="center">
             <template slot-scope="scope">
@@ -45,7 +36,6 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="120px"
             label="商品库存"
             align="center">
             <template slot-scope="scope">
@@ -53,7 +43,6 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="120px"
             label="库存预警值"
             align="center">
             <template slot-scope="scope">
@@ -61,24 +50,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="100px"
-            label="sku图片"
-            align="center">
-            <template slot-scope="scope">
-              <el-upload
-                class="sku-upload"
-                action="http://localhost:40005/emall-manageplat/oss/uploadPics"
-                :data="ossPath"
-                :show-file-list="false"
-                :on-success="uploadSkuPictureSuccess">
-                <img v-if="scope.row.picture" :src="scope.row.picture" class="sku-picture">
-                <i v-else class="el-icon-plus logo-uploader-icon"></i>
-              </el-upload>
-            </template>
-          </el-table-column>
-          <el-table-column
             fixed="right"
-            width="120px"
             label="操作"
             align="center">
             <template slot-scope="scope">
@@ -94,20 +66,42 @@
       </el-form-item>
 
       <el-form-item label="sku图片：">
-        <el-card shadow="never" class="cardBg">
-          <div v-for="(item,index) in checkedProductSpecs">
-            <span>{{item.name}}:</span>
-            <single-upload v-model="item.pic"
-                           style="width: 300px;display: inline-block;margin-left: 10px"></single-upload>
+        <el-card shadow="never">
+          <label class="tips">* 只能上传jpg/png文件，且不超过500kb</label>
+          <div v-for="(item,index) in productForm.productSkus">
+            <span v-for="row in getSpecication(item)"
+                  style="margin-right:20px;">{{row.key}}：{{row.value}}</span>
+            <!--这里value与file是上传文件后的返回值，item为自己的参数-->
+            <el-upload
+              class="sku-upload"
+              multiple
+              action="http://localhost:40005/emall-manageplat/oss/uploadPics"
+              :data="ossSkuPath"
+              list-type="picture-card"
+              :on-success="(value,file)=>handleUploadSuccess(value,file,item)"
+              :on-preview="handlePreview"
+              :on-remove="(file,fileList)=>handleRemove(file,fileList,item)"
+              :limit="5"
+              :on-exceed="handleExceed">
+              <i class="el-icon-plus uploader-icon"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img :src="dialogImageUrl" alt="">
+            </el-dialog>
           </div>
         </el-card>
       </el-form-item>
 
       <el-form-item label="商品参数：">
         <el-card shadow="never">
+          <div class="add-param-button">
+            <el-button plain type="success" size="small">增添</el-button>
+          </div>
           <div v-for="(item,index) in productParam">
             <div class="paramLabel"><span style="margin-right: 10px;width:60px;">{{item.name}}:</span>
-              <el-select v-model="productParam[index].value" clearable style="width: 200px;margin-right: 80px">
+              <el-select v-model="productParam[index].value" collapse-tags multiple clearable
+                         style="width: 200px;margin-right: 80px"
+                         @change="selectParam(item)">
                 <el-option
                   v-for="item in getParamsValue(item.attributeList)"
                   :key="item"
@@ -127,7 +121,8 @@
       <el-form-item label="详情页：">
         <el-tabs v-model="activeHtml" type="border-card">
           <el-tab-pane label="电脑端商品详情" name="computer">
-            <quill-editor v-model="productForm.pcDetailPage" :options="editorOption" :value="productForm"></quill-editor>
+            <quill-editor v-model="productForm.pcDetailPage" :options="editorOption"
+                          :value="productForm"></quill-editor>
           </el-tab-pane>
           <el-tab-pane label="移动端商品详情" name="mobile">
             <quill-editor v-model="productForm.mobileDetailPage" :options="editorOption"></quill-editor>
@@ -175,9 +170,10 @@
         //oss上传图片的文件夹
         ossPath: { ossPath: 'GOODS' },
         //sku图片
-        ossSkuPath: { ossPath: 'SKU' },
-        //sku上传图片的回调返回地址
-        skupicture: '',
+        ossSkuPath: { ossPath: 'GOODS_SKU' },
+        dialogVisible: false,
+        dialogImageUrl: null,
+        skuPictureList: []
       }
     },
     computed: {
@@ -207,9 +203,6 @@
           }
         }
       }
-    },
-    created () {
-      console.log(this.categoryId)
     },
     //监听品类的变化
     watch: {
@@ -361,7 +354,17 @@
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
-            this.productParam = data.data
+            let paramList = []
+            for (let i = 0; i < data.data.length; i++) {
+              //这里主要是添加一个状态，主要是为了后面多选，以及判断是否选择参数
+              this.productParam.push({
+                id: data.data[i].id,
+                name: data.data[i].name,
+                status: false,
+                attributeList: data.data[i].attributeList,
+                values: ''
+              })
+            }
           }
         })
       },
@@ -378,23 +381,88 @@
           list.splice(index, 1)
         }
       },
-      //上传sku图片
-      uploadSkuPictureSuccess (row, res, file) {
+      //商品规格描述
+      getSpecication (row) {
+        let specAttr = JSON.parse(row.specification)
+        return specAttr
+      },
+
+      //商品属性参数选中
+      selectParam (row) {
+        row.status = false
+        if (row.value.length > 0) {
+          row.status = true
+        }
+      },
+      //获取已选择的商品参数
+      handleAttributeParams () {
+        for (let i = 0; i < this.productParam.length; i++) {
+          // console.log('+++++++' + this.productParam[i].find(item => item.key === value))
+          if (this.productParam[i].status) {
+            this.productForm.prodcutAttributeParams.push({
+              paramId: this.productParam[i].id,
+              paramValue: this.productParam[i].value
+            })
+          }
+        }
+      },
+
+      /******************************sku图片导入*************************/
+      handlePreview (file) {
+        this.dialogVisible = true
+        this.dialogImageUrl = file.url
+      },
+      handleUploadSuccess (res, file, item) {
         console.log(file.name)
-        this.brandForm.brandfile = file.name
+        let pictures = []
         let { data, code, mesg } = res
         if (code === '200') {
-          row.picture = data
+          this.dialogImageUrl = data
+          pictures.push(data)
+          for (let i = 0; i < item.picture.length; i++) {
+            pictures.push(item.picture[i])
+          }
+          item.picture = pictures
           this.$message.success(mesg)
         } else {
           this.$message.error(mesg)
         }
       },
+      handleExceed (files, fileList) {
+        this.$message.warning(`当前限制选择【5】个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      },
+      //这里必须要用res，不然会接收不到待删除的文件信息
+      handleRemove (file, fileList, item) {
+        let dataParam = {
+          pictureName: file.name,
+          ossPicturePath: this.ossSkuPath.ossPath
+        }
+        this.ajaxFn.post({
+          url: 'emall-manageplat/oss/deletePics',
+          data: dataParam
+        }).then(res => {
+          let { data, status } = res
+          if (status === 200) {
+            if (this.ajaxFn.respIsTrue(data)) {
+              //删除fileList中的对应地址
+              let pictures = []
+              for (let i = 0; i < fileList.length; i++) {
+                pictures.push(fileList[i].response.data)
+              }
+              item.picture = pictures
+              this.$message.success('删除成功')
+            }
+          }
+        })
+      },
+      /*****************************************************************/
       //上一步
       handlePre () {
         this.$emit('preStep')
       },
       handleNext () {
+        //这里处理商品属性参数，获取已选的参数列表
+        this.handleAttributeParams()
         this.$emit('nextStep')
       }
     }
@@ -416,30 +484,54 @@
     float: left;
   }
 
-  .sku-picture {
-    width: 40px;
-    height: 40px;
-    display: block;
-    margin: 0 auto;
+  .tips {
+    font-size: 10px;
+    color: #df5000;
+    line-height: 20px;
+    font-family: "微软雅黑 Light"
   }
 
-  .sku-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    width: 40px;
-    height: 40px;
-    margin: 0 auto;
+  /**************************处理sku图片上传图片边框的大小*******************************/
+  .sku-upload /deep/ .el-upload--picture-card {
+    width: 100px;
+    height: 100px;
   }
 
-  .logo-uploader-icon {
-    font-size: 16px;
+  .sku-upload /deep/ .el-upload {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
+
+  .sku-upload /deep/ .el-upload-list--picture-card .el-upload-list__item {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
+
+  .sku-upload /deep/ .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
+
+  .sku-upload /deep/ .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  /**************************处理sku图片上传图片边框的大小*******************************/
+
+  .uploader-icon {
+    font-size: 28px;
     color: #8c939d;
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    line-height: 100px;
     text-align: center;
-    transform: translateY(15%);
+  }
+
+  .add-param-button{
+    display: flex;
+    justify-content: flex-end;
   }
 </style>
