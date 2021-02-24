@@ -86,14 +86,18 @@
         </el-form-item>
         <div>
           <span style="margin-right: 12px">促销价格：</span>
-          <el-input style="width: 220px" v-model="productForm.promotionPrice" placeholder="输入促销价格"></el-input>
+          <el-input style="width: 220px" v-model="productForm.promotionPrice" placeholder="输入促销价格">
+            <i slot="suffix" style="font-style:normal;margin-right: 10px;color: #42b983;">元</i>
+          </el-input>
         </div>
       </el-form-item>
       <el-form-item v-show="productForm.promotionType===2">
         <el-card shadow="never">
           <el-form size="small" label-width="140px" v-for="(item, index) in productForm.productMemberPriceVos">
             <el-form-item :label="item.memberLevelName+'：'">
-              <el-input v-model="item.memberPrice" placeholder="请输入会员价"></el-input>
+              <el-input v-model="item.memberPrice" placeholder="请输入会员价">
+                <i slot="suffix" style="font-style:normal;margin-right: 10px;color: #42b983;">元</i>
+              </el-input>
             </el-form-item>
           </el-form>
         </el-card>
@@ -106,7 +110,9 @@
             align="center"
             width="120">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.fullPrice"></el-input>
+              <el-input v-model="scope.row.fullPrice">
+                <i slot="suffix" style="font-style:normal;margin-right: 10px;color: #42b983;">元</i>
+              </el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -114,7 +120,9 @@
             align="center"
             width="120">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.reducePrice"></el-input>
+              <el-input v-model="scope.row.reducePrice">
+                <i slot="suffix" style="font-style:normal;margin-right: 10px;color: #42b983;">元</i>
+              </el-input>
             </template>
           </el-table-column>
           <el-table-column
