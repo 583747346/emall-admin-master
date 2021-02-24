@@ -19,7 +19,6 @@
       <el-form-item label="商品品牌：" prop="brandId">
         <el-select
           v-model="productForm.brandId"
-          @change="handleBrandChange"
           placeholder="请选择品牌" clearable>
           <el-option
             v-for="item in brandList"
@@ -54,6 +53,7 @@
             :value="item.id">
           </el-option>
         </el-select>
+        <el-button plain type="warning" size="small" style="margin-left: 20px" @click="addProductUnit">增添</el-button>
       </el-form-item>
       <el-form-item label="商品重量：">
         <el-input v-model="productForm.weight">
@@ -75,6 +75,21 @@
                    icon="el-icon-right"></el-button>
       </el-form-item>
     </el-form>
+
+    <!--添加商品单位区域-->
+    <el-dialog title="添加商品单位" :visible.sync="productUnitVisible" width="30%"
+               :close-on-press-escape="false"
+               :close-on-click-modal="false">
+      <el-form ref="form" :model="productUnitForm" label-width="80px">
+        <el-form-item label="商品单位">
+          <el-input v-model="productUnitForm.unit"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="info" @click="dialogCancel">取 消</el-button>
+        <el-button type="primary" @click="dialogSaveProductUnit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -119,7 +134,13 @@
             }
           ],
         },
-        cateId: this.categoryId
+        cateId: this.categoryId,
+        //商品单位添加表单
+        productUnitForm: {
+          unit: ''
+        },
+        //商品添加--对话框开关
+        productUnitVisible: false,
       }
     },
     props: {
@@ -200,10 +221,35 @@
         })
       },
 
-      //获取品牌列表
-      handleBrandChange () {
-
+      /**********************手动添加商品单位************************/
+      addProductUnit () {
+        this.productUnitVisible = true;
       },
+      dialogSaveProductUnit () {
+        this.ajaxFn.post({
+          url: 'emall-manageplat/product-unit',
+          data: this.productUnitForm
+        }).then(res => {
+          let { data, status } = res
+          if (status === 200) {
+            if (this.ajaxFn.respIsTrue(data)) {
+              this.productForm.unit = this.productUnitForm.unit
+              this.productUnitVisible = false
+              this.clearForm()
+            }
+          }
+        })
+      },
+      dialogCancel () {
+        this.productUnitVisible = false
+        this.clearForm()
+      },
+
+      clearForm () {
+        this.productUnitForm.unit = ''
+      },
+      /**************************************************************/
+
       handleNext (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
