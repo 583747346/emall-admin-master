@@ -102,7 +102,7 @@
       </div>
     </el-drawer>
 
-    <!--添加菜单区域-->
+    <!--添加商品单位区域-->
     <el-dialog title="添加商品单位" :visible.sync="insertProductUnitVisible" width="30%"
                :close-on-press-escape="false"
                :close-on-click-modal="false">
