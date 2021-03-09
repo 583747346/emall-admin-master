@@ -261,7 +261,7 @@
       //获取菜单列表
       getSubMenus () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/menu/getSubMenus',
+          url: 'emall-ums-service/menu/getSubMenus',
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -277,7 +277,7 @@
       },
       getResourceMethod () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/resource/getMethods',
+          url: 'emall-ums-service/resource/getMethods',
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -289,7 +289,7 @@
       },
       getResourceType () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/resource/getTypes',
+          url: 'emall-ums-service/resource/getTypes',
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -319,7 +319,7 @@
       //获取菜单信息
       getResourceList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/resource/resourcelist',
+          url: 'emall-ums-service/resource/resourcelist',
           data: this.resourceParam
         }).then(res => {
           let { data, status } = res
@@ -374,7 +374,7 @@
       drawerUpdateDo () {
         console.log(this.resourceForm)
         this.ajaxFn.put({
-          url: 'emall-manageplat/resource',
+          url: 'emall-ums-service/resource',
           data: this.resourceForm
         }, [this.resourceForm.id]).then(res => {
           let { data, status } = res
@@ -398,7 +398,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/resource'
+            url: 'emall-ums-service/resource'
           }, [id]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -419,7 +419,7 @@
       //添加按钮
       submit (resourceForm) {
         this.ajaxFn.post({
-          url: 'emall-manageplat/resource',
+          url: 'emall-ums-service/resource',
           data: resourceForm
         }).then(res => {
           let { data, status } = res

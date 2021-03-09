@@ -29,7 +29,7 @@
     data () {
       return {
         ajaxFn: new this._AjaxFn(this),
-        ossUploadUrl: 'http://localhost:40005/emall-manageplat/oss/uploadPics',
+        ossUploadUrl: 'http://localhost:40005/emall-ums-service/oss/uploadPics',
       }
     },
     methods: {
@@ -52,7 +52,7 @@
           ossPicturePath: this.ossPath.ossPath
         }
         this.ajaxFn.post({
-          url: 'emall-manageplat/oss/deletePics',
+          url: 'emall-ums-service/oss/deletePics',
           data: dataParam
         }).then(res => {
           let { data, status } = res

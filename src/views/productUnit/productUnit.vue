@@ -160,7 +160,7 @@
       //获取商品单位列表
       getProductUnitList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/product-unit/productUnitList',
+          url: 'emall-goods-service/product-unit/productUnitList',
           data: this.productUnitParam
         }).then(res => {
           let { data, status } = res
@@ -188,7 +188,7 @@
       //添加按钮--提交表单
       dialogInsertProductUnit () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/product-unit',
+          url: 'emall-goods-service/product-unit',
           data: this.productUnitForm
         }).then(res => {
           let { data, status } = res
@@ -212,7 +212,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/product-unit'
+            url: 'emall-goods-service/product-unit'
           }, [id]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -238,7 +238,7 @@
       //更新提交保存
       drawerUpdateDo () {
         this.ajaxFn.update({
-          url: 'emall-manageplat/product-unit'
+          url: 'emall-goods-service/product-unit'
         }, [this.productUnitId]).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -258,7 +258,7 @@
       statusChange (row) {
         const status = row.status === false ? 0 : 1
         this.ajaxFn.put({
-          url: 'emall-manageplat/product-unit'
+          url: 'emall-goods-service/product-unit'
         }, [row.id, status]).then(res => {
           let { data, status } = res
           if (status === 200) {

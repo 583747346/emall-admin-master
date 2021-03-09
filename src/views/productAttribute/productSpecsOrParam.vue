@@ -156,7 +156,7 @@
     methods: {
       getAttributeList () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/product-attribute/getAttributeByCategoryId/' + this.categoryId + '/' + this.type
+          url: 'emall-goods-service/product-attribute/getAttributeByCategoryId/' + this.categoryId + '/' + this.type
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -180,7 +180,7 @@
         this.attributeForm.type = this.type
         this.attributeForm.categoryId = this.categoryId
         this.ajaxFn.post({
-          url: 'emall-manageplat/product-attribute',
+          url: 'emall-goods-service/product-attribute',
           data: this.attributeForm
         }).then(res => {
           let { data, status } = res
@@ -211,7 +211,7 @@
       //删除属性
       deleteAttribute (id) {
         this.ajaxFn.delete({
-          url: 'emall-manageplat/product-attribute'
+          url: 'emall-goods-service/product-attribute'
         }, [id]).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -225,7 +225,7 @@
       //更新商品属性|商品规格的状态
       statusChange (row) {
         this.ajaxFn.put({
-          url: 'emall-manageplat/product-attribute'
+          url: 'emall-goods-service/product-attribute'
         }, [row.id, row.status]).then(res => {
           if (status === 200) {
             if (this.ajaxFn.respIsTrue(data)) {
@@ -258,7 +258,7 @@
         })
         this.attributeForm.attributeList = attributes.join(',')
         this.ajaxFn.put({
-          url: 'emall-manageplat/product-attribute',
+          url: 'emall-goods-service/product-attribute',
           data: this.attributeForm
         }, [this.attributeId]).then(res => {
           if (status === 200) {

@@ -3,21 +3,21 @@ const select = {
     menu: {
       data: null,
       searchData: null,
-      requestUrl: 'emall-manageplat/menu/menulist',
+      requestUrl: 'emall-ums-service/menu/menulist',
       placeholder: '请选择菜单',
       method: 'post'
     },
     role: {
       data: null,
       searchData: null,
-      requestUrl: 'emall-manageplat/role/rolelist',
+      requestUrl: 'emall-ums-service/role/rolelist',
       placeholder: '请选择角色',
       method: 'post'
     },
     resource: {
       data: null,
       searchData: null,
-      requestUrl: 'emall-manageplat/resource/resourcelist',
+      requestUrl: 'emall-ums-service/resource/resourcelist',
       placeholder: '请选择资源',
       method: 'post'
     }

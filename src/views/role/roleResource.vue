@@ -50,7 +50,7 @@
       //根据角色id查看资源
       getResource (roleId) {
         this.ajaxFn.get({
-          url: '/emall-manageplat/role/getResourceByRoleId/' + this.roleId
+          url: '/emall-ums-service/role/getResourceByRoleId/' + this.roleId
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -70,7 +70,7 @@
       //获取所有的资源列表
       getAllResource () {
         this.ajaxFn.get({
-          url: '/emall-manageplat/resource/getResourceTree'
+          url: '/emall-ums-service/resource/getResourceTree'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -184,7 +184,7 @@
         }
 
         this.ajaxFn.post({
-          url: 'emall-manageplat/role/resource/' + this.roleId,
+          url: 'emall-ums-service/role/resource/' + this.roleId,
           data: checkedIds
         }).then(res => {
           let { data, status } = res

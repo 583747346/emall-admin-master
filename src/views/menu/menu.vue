@@ -299,7 +299,7 @@
       },
       getSubMenuList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/menu/menulist',
+          url: 'emall-ums-service/menu/menulist',
           data: {
             id: this.subMenuData.id,
             pageSize: 9999,
@@ -317,7 +317,7 @@
       //获取菜单信息
       getMenuList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/menu/menulist',
+          url: 'emall-ums-service/menu/menulist',
           data: this.menuParam
         }).then(res => {
           let { data, status } = res
@@ -378,7 +378,7 @@
       //对话框---提交
       dialogInsertMenu (menuForm) {
         this.ajaxFn.post({
-          url: 'emall-manageplat/menu',
+          url: 'emall-ums-service/menu',
           data: menuForm
         }).then(res => {
           let { data, status } = res
@@ -411,7 +411,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/menu'
+            url: 'emall-ums-service/menu'
           }, [id]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -439,7 +439,7 @@
       //抽屉---更新菜单信息
       drawerUpdateDo () {
         this.ajaxFn.put({
-          url: 'emall-manageplat/menu',
+          url: 'emall-ums-service/menu',
           data: this.menuForm
         }, [this.menuForm.id]).then(res => {
           let { data, status } = res

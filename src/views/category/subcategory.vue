@@ -179,7 +179,7 @@
       getCategoryList () {
         let param = { level: 2 }
         this.ajaxFn.get({
-          url: 'emall-manageplat/productCat/' + this.parentId,
+          url: 'emall-goods-service/productCat/' + this.parentId,
           data: param
         }).then(res => {
           let { data, status } = res
@@ -200,7 +200,7 @@
       statusChange (row) {
         const status = row.navStatus === false ? 1 : 0
         this.ajaxFn.put({
-          url: 'emall-manageplat/productCat/updateStatusById'
+          url: 'emall-goods-service/productCat/updateStatusById'
         }, [row.id, status]).then(res => {
           if (status === 200) {
             if (this.ajaxFn.respIsTrue(data)) {
@@ -219,7 +219,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/productCat'
+            url: 'emall-goods-service/productCat'
           }, [categoryId]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -253,7 +253,7 @@
       //添加按钮对话框---添加保存
       submit () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/productCat',
+          url: 'emall-goods-service/productCat',
           data: this.categoryForm
         }).then(res => {
           let { data, status } = res
@@ -276,7 +276,7 @@
       //修改按钮---抽屉---提交保存
       drawerUpdate () {
         this.ajaxFn.put({
-          url: 'emall-manageplat/productCat/' + this.updateCategoryId,
+          url: 'emall-goods-service/productCat/' + this.updateCategoryId,
           data: this.categoryForm
         }).then(res => {
           let { data, status } = res

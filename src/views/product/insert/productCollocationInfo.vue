@@ -105,7 +105,7 @@
       getCategoryLevel () {
         let _this = this
         this.ajaxFn.get({
-          url: 'emall-manageplat/productCat/getCategory'
+          url: 'emall-goods-service/productCat/getCategory'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {

@@ -75,7 +75,7 @@
             <el-upload
               class="sku-upload"
               multiple
-              action="http://localhost:40005/emall-manageplat/oss/uploadPics"
+              action="http://localhost:40005/emall-goods-service/oss/uploadPics"
               :data="ossSkuPath"
               list-type="picture-card"
               :on-success="(value,file)=>handleUploadSuccess(value,file,item)"
@@ -173,7 +173,7 @@
         ossSkuPath: { ossPath: 'GOODS_SKU' },
         dialogVisible: false,
         dialogImageUrl: null,
-        skuPictureList: []
+        skuPictureList: [],
       }
     },
     computed: {
@@ -208,8 +208,9 @@
     watch: {
       'categoryId': {
         handler: function (oldValue, newValue) {
-          //第一次刚进入页面，品类为空，也会执行，这里return掉
-          if (newValue === '') {
+          //1.第一次刚进入页面，品类为空，也会执行，这里return掉
+          //2.当清空分类下拉框数据，也就是categoryId为空，这里直接return掉
+          if (newValue === '' || this.categoryId === '') {
             return
           }
           //根据品类获取规格信息
@@ -224,7 +225,7 @@
       //根据品类id获取规格列表信息
       getSpecsByCategoryId () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/product-attribute/getAttributeByCategoryId/' + this.productForm.productCategoryId + '/' + 0
+          url: 'emall-goods-service/product-attribute/getAttributeByCategoryId/' + this.productForm.productCategoryId + '/' + 0
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -329,8 +330,7 @@
                     price: 0,
                     stock: 0,
                     lowStock: 0,
-                    skuCode: '',
-                    picture: ''
+                    picture: 0
                   })
                   // 去掉索引字符串开头的下划线
                   obj.indexes = obj.indexes.substring(1)
@@ -350,7 +350,7 @@
       //根据品类id获取商品参数列表信息
       getParamsByCategoryId () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/product-attribute/getAttributeByCategoryId/' + this.productForm.productCategoryId + '/' + 1
+          url: 'emall-goods-service/product-attribute/getAttributeByCategoryId/' + this.productForm.productCategoryId + '/' + 1
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -438,7 +438,7 @@
           ossPicturePath: this.ossSkuPath.ossPath
         }
         this.ajaxFn.post({
-          url: 'emall-manageplat/oss/deletePics',
+          url: 'emall-goods-service/oss/deletePics',
           data: dataParam
         }).then(res => {
           let { data, status } = res
@@ -469,7 +469,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .product-attribute-info {
     left: 0;
     right: 0;

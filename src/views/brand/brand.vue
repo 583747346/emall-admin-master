@@ -118,7 +118,7 @@
         <el-form-item label="品牌logo">
           <el-upload
             class="brand-upload"
-            action="http://localhost:40005/emall-manageplat/oss/uploadPics"
+            action="http://localhost:40005/emall-goods-service/oss/uploadPics"
             :data="ossPath"
             :show-file-list="false"
             :on-success="handleBrandLogoSuccess">
@@ -152,7 +152,7 @@
           </el-form-item>
           <el-form-item label="品牌logo">
             <el-upload class="brand-upload"
-                       action="http://localhost:40005/emall-manageplat/oss/uploadPics"
+                       action="http://localhost:40005/emall-goods-service/oss/uploadPics"
                        :data="ossPath"
                        :show-file-list="false"
                        :on-success="handleBrandLogoSuccess">
@@ -165,7 +165,7 @@
           </el-form-item>
           <el-form-item label="品牌制造商">
             <el-radio-group v-model="brandForm.factoryStatus">
-              <el-radio-button label="1">是</el-radio-button>
+              <el-radio-button label="1" >是</el-radio-button>
               <el-radio-button label="0">否</el-radio-button>
             </el-radio-group>
           </el-form-item>
@@ -213,7 +213,7 @@
         loading: true,
         //显示添加的dialogue
         insertBrandVisible: false,
-        ossPath: { ossBrandPath: 'BRAND_LOGO' },
+        ossPath: { ossPath: 'BRAND_LOGO' },
         //品牌logo上传oss，返回地址
         brandUrl: '',
         //品牌表单
@@ -245,7 +245,7 @@
     methods: {
       getBrandList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/brand/brandlist',
+          url: 'emall-goods-service/brand/brandlist',
           data: this.brandParam
         }).then(res => {
           let { data, status } = res
@@ -284,7 +284,7 @@
       statusChange (brandData) {
         const status = brandData.showStatus === false ? 1 : 0
         this.ajaxFn.put({
-          url: 'emall-manageplat/brand'
+          url: 'emall-goods-service/brand'
         }, [brandData.id, status]).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -309,7 +309,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/brand'
+            url: 'emall-goods-service/brand'
           }, [brandId]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -344,7 +344,7 @@
       //dialogue--添加--提交
       submit () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/brand',
+          url: 'emall-goods-service/brand',
           data: this.brandForm
         }).then(res => {
           let { data, status } = res
@@ -367,7 +367,7 @@
         }
         //清除oss中的图片
         this.ajaxFn.post({
-          url: 'emall-manageplat/oss/deletePics',
+          url: 'emall-goods-service/oss/deletePics',
           data: dataParam
         }).then(res => {
           let { data, status } = res
@@ -385,7 +385,7 @@
       //抽屉--更新
       drawerUpdate () {
         this.ajaxFn.put({
-          url: 'emall-manageplat/brand',
+          url: 'emall-goods-service/brand',
           data: this.brandForm
         },[this.updateBrandId]).then(res => {
           let { data, status } = res

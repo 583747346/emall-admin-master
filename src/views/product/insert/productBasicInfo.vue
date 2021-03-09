@@ -6,8 +6,7 @@
         <el-cascader
           v-model="selectProductCateIds"
           :options="productCateOptions"
-          :props="{ expandTrigger: 'click',value: 'id', label: 'name'}"
-          clearable>
+          :props="{ expandTrigger: 'click',value: 'id', label: 'name'}">
         </el-cascader>
       </el-form-item>
       <el-form-item label="商品名称：" prop="name">
@@ -36,13 +35,13 @@
           placeholder="请输入内容..."></el-input>
       </el-form-item>
       <el-form-item label="商品货号：">
-        <el-input v-model="productForm.productSn"></el-input>
+        <el-input v-model="productForm.productNo"></el-input>
       </el-form-item>
       <el-form-item label="商品售价：">
         <el-input v-model="productForm.price"></el-input>
       </el-form-item>
       <el-form-item label="市场价：">
-        <el-input v-model="productForm.originalPrice"></el-input>
+        <el-input v-model="productForm.marketPrice"></el-input>
       </el-form-item>
       <el-form-item label="计量单位：">
         <el-select v-model="productForm.unit" placeholder="请选择" size="small">
@@ -50,7 +49,7 @@
             v-for="item in productUnitSelecter"
             :key="item.id"
             :label="item.unit"
-            :value="item.id">
+            :value="item.unit">
           </el-option>
         </el-select>
         <el-button plain type="warning" size="small" style="margin-left: 20px" @click="addProductUnit">增添</el-button>
@@ -152,9 +151,14 @@
       selectProductCateIds: function (object) {
         console.log(object)
         if (object != null) {
-          this.productForm.productCategoryId = object[object.length - 1]
-          this.cateId = object[object.length - 1]
-          this.$emit('inputs', this.cateId)
+          if (object.length > 0) {
+            this.productForm.productCategoryId = object[object.length - 1]
+            this.cateId = object[object.length - 1]
+          } else {
+            this.productForm.productCategoryId = ''
+            this.cateId = ''
+          }
+          this.$emit('returnCateId', this.cateId)
         }
       }
     },
@@ -171,7 +175,7 @@
       getCategoryRank () {
         let _this = this
         this.ajaxFn.get({
-          url: 'emall-manageplat/productCat/getCategory'
+          url: 'emall-goods-service/productCat/getCategory'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -191,7 +195,7 @@
           size: 9999
         }
         this.ajaxFn.post({
-          url: 'emall-manageplat/brand/brandlist',
+          url: 'emall-goods-service/brand/brandlist',
           data: param
         }).then(res => {
           let { data, status } = res
@@ -209,7 +213,7 @@
           size: 9999
         }
         this.ajaxFn.post({
-          url: 'emall-manageplat/product-unit/productUnitList',
+          url: 'emall-goods-service/product-unit/productUnitList',
           data: param
         }).then(res => {
           let { data, status } = res
@@ -223,11 +227,11 @@
 
       /**********************手动添加商品单位************************/
       addProductUnit () {
-        this.productUnitVisible = true;
+        this.productUnitVisible = true
       },
       dialogSaveProductUnit () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/product-unit',
+          url: 'emall-goods-service/product-unit',
           data: this.productUnitForm
         }).then(res => {
           let { data, status } = res

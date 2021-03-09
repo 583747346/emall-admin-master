@@ -19,9 +19,9 @@
       :on-exceed="handleExceed">
       <i class="el-icon-plus uploader-icon"></i>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
+<!--    <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
+    </el-dialog>-->
   </div>
 </template>
 <script>
@@ -43,30 +43,30 @@
         ajaxFn: new this._AjaxFn(this),
         dialogVisible: false,
         dialogImageUrl: null,
-        ossUploadUrl: 'http://localhost:40005/emall-manageplat/oss/uploadPics',
+        ossUploadUrl: 'http://localhost:40005/emall-ums-service/oss/uploadPics',
       }
     },
     computed: {
       fileList () {
-        let fileList = []
+        let pictureList = []
         for (let i = 0; i < this.value.length; i++) {
           //这里必需要用url接收，不然会报错
-          fileList.push({ url: this.value[i] })
+          pictureList.push({ url: this.value[i] })
         }
-        console.log(fileList)
-        return fileList
+        return pictureList
       }
     },
     methods: {
       handleImageList (fileList) {
-        let value = []
+        let pictures = [];
         for (let i = 0; i < fileList.length; i++) {
-          value.push(fileList[i].url)
+          pictures.push(fileList[i].url)
         }
+        //同步父组件绑定数据
+        this.$emit('input', pictures)
       },
       //图片上传处理成功返回图片地址
       handleUploadSuccess (res, file) {
-        console.log(file.name)
         let { data, code, mesg } = res
         if (code === '200') {
           this.dialogImageUrl = data
@@ -91,7 +91,7 @@
           ossPicturePath: this.ossPath.ossPath
         }
         this.ajaxFn.post({
-          url: 'emall-manageplat/oss/deletePics',
+          url: 'emall-ums-service/oss/deletePics',
           data: dataParam
         }).then(res => {
           let { data, status } = res

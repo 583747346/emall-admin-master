@@ -19,7 +19,7 @@ const user = {
         } else {
           let ajaxFn = new AjaxFn(this)
           ajaxFn.get({
-            url: '/emall-manageplat/user/getUserInfo'
+            url: '/emall-ums-service/user/getUserInfo'
           }).then(res => {
             let { data, status } = res
             if (status === 200) {

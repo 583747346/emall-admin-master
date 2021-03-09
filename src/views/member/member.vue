@@ -159,7 +159,7 @@
       //会员等级
       getMemberRank () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/member-rank'
+          url: 'emall-member-service/member-rank'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -172,7 +172,7 @@
       //会员列表
       getMemberList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/member/memberList',
+          url: 'emall-member-service/member/memberList',
           data: this.memberParam
         }).then(res => {
           let { data, status } = res
@@ -188,7 +188,7 @@
       statusChange (row) {
         const status = row.status == false ? 0 : 1
         this.ajaxFn.post({
-          url: 'emall-manageplat/member'
+          url: 'emall-member-service/member'
         }, [row.id, status]).then(res => {
           let { data, status } = res
           if (status === 200) {

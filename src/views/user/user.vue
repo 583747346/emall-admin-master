@@ -119,7 +119,7 @@
           </el-form-item>
           <el-form-item label="头像">
             <el-upload class="avatar-upload"
-                       action="http://localhost:40005/emall-manageplat/oss/uploadPics"
+                       action="http://localhost:40005/emall-ums-service/oss/uploadPics"
                        :data="ossPath"
                        :show-file-list="false"
                        :on-success="handleAvatarSuccess">
@@ -163,7 +163,7 @@
         <el-form-item label="头像">
           <el-upload
             class="avatar-upload"
-            action="http://localhost:40005/emall-manageplat/oss/uploadPics"
+            action="http://localhost:40005/emall-ums-service/oss/uploadPics"
             :data="ossPath"
             :show-file-list="false"
             :on-success="handleAvatarSuccess">
@@ -312,7 +312,7 @@
       //获取全部角色列表
       getAllRole () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/role/distinct'
+          url: 'emall-ums-service/role/distinct'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -325,7 +325,7 @@
       //获取用户信息
       getUserList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/user/userlist',
+          url: 'emall-ums-service/user/userlist',
           data: this.userParam
         }).then(res => {
           let { data, status } = res
@@ -355,7 +355,7 @@
         //当deleted未false表示关掉，即对应是删除用户为Y
         const status = userdata.deleted === false ? 'Y' : 'N'
         this.ajaxFn.put({
-          url: 'emall-manageplat/user'
+          url: 'emall-ums-service/user'
         }, [userdata.id, status]).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -410,7 +410,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/user'
+            url: 'emall-ums-service/user'
           }, [id]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -438,7 +438,7 @@
       update () {
         //调用接口更新操作
         this.ajaxFn.put({
-          url: 'emall-manageplat/user',
+          url: 'emall-ums-service/user',
           data: this.userForm
         }, [this.updateUserId]).then(res => {
           let { data, status } = res
@@ -466,7 +466,7 @@
       submit (userForm) {
         userForm.avatar = this.avatarUrl
         this.ajaxFn.post({
-          url: 'emall-manageplat/user',
+          url: 'emall-ums-service/user',
           data: userForm
         }).then(res => {
           let { data, status } = res
@@ -503,7 +503,7 @@
       getRoleByUserId () {
         this.userRoleForm.role = []
         this.ajaxFn.get({
-          url: 'emall-manageplat/user/' + this.userRoleForm.id
+          url: 'emall-ums-service/user/' + this.userRoleForm.id
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -529,7 +529,7 @@
       //给用户分配角色
       userRoleMenu () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/user/role/' + this.userRoleForm.id,
+          url: 'emall-ums-service/user/role/' + this.userRoleForm.id,
           data: this.userRoleForm.role
         }).then(res => {
           let { data, status } = res

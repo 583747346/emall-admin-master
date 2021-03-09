@@ -12,7 +12,7 @@
                         :categoryId="categoryId"
                         :productForm="productForm"
                         @nextStep="nextStep"
-                        @inputs="inputs">
+                        @returnCateId="returnCateId">
     </product-basic-info>
     <product-sale-info v-show="showStatus[1]"
                        v-model="productForm"
@@ -52,19 +52,19 @@
     subTitle: '',              //商品描述
     brandId: '',               //品牌id
     description: '',           //商品描述
-    productSn: '',             //商品货号
-    price: '',                 //商品售价
-    originalPrice: '',         //市场价
+    productNo: '',             //商品货号
+    price: 0,                  //商品售价
+    marketPrice: 0,            //市场价
     unit: '',                  //商品计量单位
     weight: '',                //重量
     sort: 0,                   //排序
     note: '',                  //备注
 
     //营销部分
-    purchasePoint: '',         //购买所获得的积分
-    purchaseGrowth: '',        //成长值（升级会员等级）
-    usePointLimit: '',         //积分购买限制
-    promotionLimit: '',        //商品限购数量
+    purchasePoint: 0,          //购买所获得的积分
+    purchaseGrowth: 0,         //成长值（升级会员等级）
+    usePointLimit: 0,          //积分购买限制
+    promotionLimit: 0,         //商品限购数量
     publishStatus: 1,          //上架状态
     newStatus: 1,              //新品|老品
     recommandStatus: 1,        //推荐状态
@@ -73,11 +73,11 @@
     detailDesc: '',            //详细页描述
     detailContent: '',         //详情内容
     promotionType: 0,          //促销类型
-    promotionStartTime: '',    //促销开始时间
-    promotionEndTime: '',      //促销结束时间
-    promotionPrice: '',        //促销价格
-    productMemberPriceVos: [], //会员价信息数组
-    productFullPromotionVos: [{ //商品满减
+    promotionStartDate: '',    //促销开始时间
+    promotionEndDate: '',      //促销结束时间
+    promotionPrice: 0,         //促销价格
+    memberPriceForms: [],      //会员价信息数组
+    pmsFullPromotionForms: [{  //商品满减
       fullPrice: 0,
       reducePrice: 0
     }],
@@ -117,7 +117,7 @@
     },
     methods: {
       //inputs事件写回父组件
-      inputs (categoryId) {
+      returnCateId (categoryId) {
         this.categoryId = categoryId
       },
       hideAll () {
@@ -148,7 +148,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.post({
-            url: 'emall-manageplat/product',
+            url: 'emall-goods-service/product',
             data: this.productForm
           }).then(res => {
             let { data, status } = res

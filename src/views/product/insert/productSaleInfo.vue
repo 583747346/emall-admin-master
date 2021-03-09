@@ -80,6 +80,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             align="left"
+            value-format="yyyy-MM-dd HH:mm:ss"
             @change='selectData(daterange)'
             clearable>
           </el-date-picker>
@@ -93,7 +94,7 @@
       </el-form-item>
       <el-form-item v-show="productForm.promotionType===2">
         <el-card shadow="never">
-          <el-form size="small" label-width="140px" v-for="(item, index) in productForm.productMemberPriceVos">
+          <el-form size="small" label-width="140px" v-for="(item, index) in productForm.memberPriceForms">
             <el-form-item :label="item.memberLevelName+'：'">
               <el-input v-model="item.memberPrice" placeholder="请输入会员价">
                 <i slot="suffix" style="font-style:normal;margin-right: 10px;color: #42b983;">元</i>
@@ -103,7 +104,7 @@
         </el-card>
       </el-form-item>
       <el-form-item v-show="productForm.promotionType===3">
-        <el-table :data="productForm.productFullPromotionVos" style="width: 100%" border
+        <el-table :data="productForm.pmsFullPromotionForms" style="width: 100%" border
                   :header-cell-style="{background:'#f0f9eb',color:'black'}">
           <el-table-column
             label="满"
@@ -170,8 +171,8 @@
       selectData (e) {
         if (e != null) {
           console.log(e[0])
-          this.productForm.promotionStartTime = e[0]
-          this.productForm.promotionEndTime = e[1]
+          this.productForm.promotionStartDate = e[0]
+          this.productForm.promotionEndDate = e[1]
         }
       },
       //商品服务列表---复选框选择
@@ -187,7 +188,7 @@
           size: 9999
         }
         this.ajaxFn.post({
-          url: 'emall-manageplat/member-rank/memberRankList',
+          url: 'emall-member-service/member-rank/memberRankList',
           data: param
         }).then(res => {
           let { data, status } = res
@@ -197,26 +198,26 @@
               this.brandList = data.data.records
               for (let i = 0; i < data.data.records.length; i++) {
                 memberPriceList.push({
-                  memberLevelId: data.data.records[i].id,
+                  rankId: data.data.records[i].id,
                   memberLevelName: data.data.records[i].rank
                 })
               }
-              this.productForm.productMemberPriceVos = memberPriceList
+              this.productForm.memberPriceForms = memberPriceList
             }
           }
         })
       },
       //满减优惠删除
       deleteFullReduction (item, index) {
-        if (this.productForm.productFullPromotionVos.length == 1) {
+        if (this.productForm.pmsFullPromotionForms.length == 1) {
           this.$message.error('至少要保留一个满减价格')
           return
         }
-        this.productForm.productFullPromotionVos.splice(index, 1)
+        this.productForm.pmsFullPromotionForms.splice(index, 1)
       },
       //满减又会添加
       addFullReduction () {
-        this.productForm.productFullPromotionVos.push({
+        this.productForm.pmsFullPromotionForms.push({
           count: 0,
           discount: 0,
           price: 0

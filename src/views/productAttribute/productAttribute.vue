@@ -119,7 +119,7 @@
       //获取列表
       getAttributeList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/product-attribute/attributeList',
+          url: 'emall-goods-service/product-attribute/attributeList',
           data: this.attributeParam,
         }).then(res => {
           let { data, status } = res
@@ -135,7 +135,7 @@
       getCategoryLevel () {
         let _this = this
         this.ajaxFn.get({
-          url: 'emall-manageplat/productCat/getCategory'
+          url: 'emall-goods-service/productCat/getCategory'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {

@@ -235,7 +235,7 @@
       //获取角色信息
       getRoleList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/role/rolelist',
+          url: 'emall-ums-service/role/rolelist',
           data: this.roleParam
         }).then(res => {
           let { data, status } = res
@@ -293,7 +293,7 @@
       dialogInsertRole (roleForm) {
         this.insertRoleVisible = false
         this.ajaxFn.post({
-          url: 'emall-manageplat/role',
+          url: 'emall-ums-service/role',
           data: roleForm
         }).then(res => {
           let { data, status } = res
@@ -321,7 +321,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/role'
+            url: 'emall-ums-service/role'
           }, [id]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -343,7 +343,7 @@
       drawerUpdateDo () {
         console.log(this.roleForm)
         this.ajaxFn.put({
-          url: 'emall-manageplat/role',
+          url: 'emall-ums-service/role',
           data: this.roleForm
         }, [this.roleForm.id]).then(res => {
           let { data, status } = res
@@ -371,7 +371,7 @@
       },
       getRoleMenu () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/role/getMenuByRoleId/' + this.roleMenu.id,
+          url: 'emall-ums-service/role/getMenuByRoleId/' + this.roleMenu.id,
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -415,7 +415,7 @@
       //获取所有菜单
       getAllMenu () {
         this.ajaxFn.get({
-          url: 'emall-manageplat/menu/menutree'
+          url: 'emall-ums-service/menu/menutree'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
@@ -438,7 +438,7 @@
           this.halfSelectResourceIds.push(node.menuId)
         })
         this.ajaxFn.post({
-          url: 'emall-manageplat/role/menu/' + this.roleMenu.id,
+          url: 'emall-ums-service/role/menu/' + this.roleMenu.id,
           data: this.selectResourceIds.concat(this.halfSelectResourceIds)
         }).then(res => {
           let { data, status } = res

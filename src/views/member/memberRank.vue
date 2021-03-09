@@ -161,7 +161,7 @@
       //获取会员等级列表
       getMemberRankList () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/member-rank/memberRankList',
+          url: 'emall-member-service/member-rank/memberRankList',
           data: this.memberRankParam
         }).then(res => {
           let { data, status } = res
@@ -178,7 +178,7 @@
       statusChange (row) {
         const status = row.status == false ? 0 : 1
         this.ajaxFn.put({
-          url: 'emall-manageplat/member-rank'
+          url: 'emall-member-service/member-rank'
         }, [row.id, status]).then(res => {
           let { data, status, mesg } = res
           if (status === 200) {
@@ -199,7 +199,7 @@
           type: 'warning'
         }).then(() => {
           this.ajaxFn.delete({
-            url: 'emall-manageplat/member-rank'
+            url: 'emall-member-service/member-rank'
           }, [id]).then(res => {
             let { data, status } = res
             if (status === 200) {
@@ -229,7 +229,7 @@
       //抽屉--提交保存
       drawerupdate () {
         this.ajaxFn.put({
-          url: 'emall-manageplat/member-rank',
+          url: 'emall-member-service/member-rank',
           data: this.memberRankForm
         }, [this.updateMemberRankId]).then(res => {
           let { data, status } = res
@@ -253,7 +253,7 @@
       },
       dialogSubmit () {
         this.ajaxFn.post({
-          url: 'emall-manageplat/member-rank',
+          url: 'emall-member-service/member-rank',
           data: this.memberRankForm
         }).then(res => {
           let { data, status } = res

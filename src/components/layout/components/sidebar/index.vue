@@ -63,7 +63,7 @@
       //获取菜单信息
       getMenuList () {
         this.ajaxFn.get({
-          url: '/emall-manageplat/home/treeList'
+          url: '/emall-ums-service/home/treeList'
         }).then(res => {
           let { data, status } = res
           if (status === 200) {
