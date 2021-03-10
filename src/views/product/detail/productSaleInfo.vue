@@ -2,19 +2,19 @@
   <div class="product-sale-info">
     <el-form :model="productForm" ref="productSaleForm" label-width="120px" style="width: 600px" size="small">
       <el-form-item label="赠送积分：">
-        <el-input-number v-model="productForm.purchasePoint" controls-position="right"
+        <el-input-number v-model="productForm.purchasePoint" style="width: 100%" controls-position="right"
                          :min="0"></el-input-number>
       </el-form-item>
       <el-form-item label="赠送成长值：">
-        <el-input-number v-model="productForm.purchaseGrowth" controls-position="right"
+        <el-input-number v-model="productForm.purchaseGrowth" style="width: 100%" controls-position="right"
                          :min="0"></el-input-number>
       </el-form-item>
       <el-form-item label="积分购买限制：">
-        <el-input-number v-model="productForm.usePointLimit" controls-position="right"
+        <el-input-number v-model="productForm.usePointLimit" style="width: 100%" controls-position="right"
                          :min="0"></el-input-number>
       </el-form-item>
       <el-form-item label="商品限购数量：">
-        <el-input-number v-model="productForm.promotionLimit" controls-position="right"
+        <el-input-number v-model="productForm.promotionLimit" style="width: 100%" controls-position="right"
                          :min="0"></el-input-number>
       </el-form-item>
       <el-form-item label="商品上架：">
@@ -104,7 +104,7 @@
         </el-card>
       </el-form-item>
       <el-form-item v-show="productForm.promotionType===3">
-        <el-table :data="productForm.pmsFullPromotionForms" style="width: 100%" border
+        <el-table :data="productForm.fullPromotionForms" style="width: 100%" border
                   :header-cell-style="{background:'#f0f9eb',color:'black'}">
           <el-table-column
             label="满"
@@ -195,7 +195,6 @@
           if (status === 200) {
             let memberPriceList = []
             if (this.ajaxFn.respIsTrue(data)) {
-              this.brandList = data.data.records
               for (let i = 0; i < data.data.records.length; i++) {
                 memberPriceList.push({
                   rankId: data.data.records[i].id,
@@ -209,15 +208,15 @@
       },
       //满减优惠删除
       deleteFullReduction (item, index) {
-        if (this.productForm.pmsFullPromotionForms.length == 1) {
+        if (this.productForm.fullPromotionForms.length == 1) {
           this.$message.error('至少要保留一个满减价格')
           return
         }
-        this.productForm.pmsFullPromotionForms.splice(index, 1)
+        this.productForm.fullPromotionForms.splice(index, 1)
       },
-      //满减又会添加
+      //满减优惠添加
       addFullReduction () {
-        this.productForm.pmsFullPromotionForms.push({
+        this.productForm.fullPromotionForms.push({
           count: 0,
           discount: 0,
           price: 0
