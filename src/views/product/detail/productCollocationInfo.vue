@@ -45,8 +45,8 @@
             </div>
           </div>
           <div style="float: left;">
-            <div><img src="../../../assets/sku/Jack.jpg" class="image"></div>
-            <div><img src="../../../assets/sku/kuzi.jpg" class="image"></div>
+            <div><img src="src/assets/sku/Jack.jpg" class="image"></div>
+            <div><img src="src/assets/sku/kuzi.jpg" class="image"></div>
           </div>
         </el-form-item>
         <el-form-item style="text-align: center">
