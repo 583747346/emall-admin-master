@@ -154,7 +154,7 @@
         if (object != null) {
           if (object.length > 0) {
             this.productForm.productCategoryId = object[object.length - 1]
-            this.productForm.productCategoryName = this.getCateNameById(this.productForm.productCategoryId)
+            this.productForm.productCategoryName = this.getCateNameById(object[object.length - 1])
             this.cateId = object[object.length - 1]
           } else {
             this.productForm.productCategoryId = ''
@@ -178,8 +178,11 @@
       getCateNameById (id) {
         let name = null
         for (let i = 0; i < this.productCateOptions.length; i++) {
+          if(this.productCateOptions[i].id === id){
+            return this.productCateOptions[i].name
+          }
           for (let j = 0; j < this.productCateOptions[i].children.length; j++) {
-            if (this.productCateOptions[i].children[j].value === id) {
+            if (this.productCateOptions[i].children[j].id === id) {
               name = this.productCateOptions[i].children[j].name
               return name
             }
