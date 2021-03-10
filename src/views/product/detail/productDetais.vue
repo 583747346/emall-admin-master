@@ -67,9 +67,9 @@
     purchaseGrowth: 0,         //成长值（升级会员等级）
     usePointLimit: 0,          //积分购买限制
     promotionLimit: 0,         //商品限购数量
-    publishStatus: 1,          //上架状态
-    newStatus: 1,              //新品|老品
-    recommandStatus: 1,        //推荐状态
+    publishStatus: 0,          //上架状态
+    newStatus: 0,              //新品|老品
+    recommandStatus: 0,        //推荐状态
     serviceList: '',           //服务保证
     detailTitle: '',           //详情页标题
     detailDesc: '',            //详细页描述
@@ -79,7 +79,7 @@
     promotionEndDate: '',      //促销结束时间
     promotionPrice: 0,         //促销价格
     memberPriceForms: [],      //会员价信息数组
-    fullPromotionForms: [{  //商品满减
+    fullPromotionForms: [{     //商品满减
       fullPrice: 0,
       reducePrice: 0
     }],
@@ -133,7 +133,16 @@
 
       //根据商品货号查看商品信息 TODO
       getProduct (productId) {
-
+        this.ajaxFn.get({
+          url:'/emall-goods-service/product/'+productId
+        }).then(res=>{
+          let { data, status } = res
+          if (status === 200) {
+            if (this.ajaxFn.respIsTrue(data)) {
+              this.productForm = data
+            }
+          }
+        })
       },
 
       //inputs事件写回父组件
