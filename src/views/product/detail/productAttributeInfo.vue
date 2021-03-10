@@ -75,7 +75,7 @@
             <el-upload
               class="sku-upload"
               multiple
-              action="http://localhost:40005/emall-goods-service/oss/uploadPics"
+              action="http://localhost:40005/emall-ums-service/oss/uploadPics"
               :data="ossSkuPath"
               list-type="picture-card"
               :on-success="(value,file)=>handleUploadSuccess(value,file,item)"
@@ -295,7 +295,7 @@
               })
             }
           }
-          // 数组转为字符串
+          // 数组转为字符串  添加规格json串
           cartesian[k].specification = JSON.stringify(specification)
         }
         this.productForm.productSkus = cartesian

@@ -118,7 +118,7 @@
         <el-form-item label="品牌logo">
           <el-upload
             class="brand-upload"
-            action="http://localhost:40005/emall-goods-service/oss/uploadPics"
+            action="http://localhost:40005/emall-ums-service/oss/uploadPics"
             :data="ossPath"
             :show-file-list="false"
             :on-success="handleBrandLogoSuccess">
@@ -152,7 +152,7 @@
           </el-form-item>
           <el-form-item label="品牌logo">
             <el-upload class="brand-upload"
-                       action="http://localhost:40005/emall-goods-service/oss/uploadPics"
+                       action="http://localhost:40005/emall-ums-service/oss/uploadPics"
                        :data="ossPath"
                        :show-file-list="false"
                        :on-success="handleBrandLogoSuccess">
