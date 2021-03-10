@@ -20,22 +20,22 @@
       <el-form-item label="商品上架：">
         <el-switch
           v-model="productForm.publishStatus"
-          :active-value="1"
-          :inactive-value="0">
+          :active-value="0"
+          :inactive-value="1">
         </el-switch>
       </el-form-item>
       <el-form-item label="新老品：">
         <el-switch
           v-model="productForm.newStatus"
-          :active-value="1"
-          :inactive-value="0">
+          :active-value="0"
+          :inactive-value="1">
         </el-switch>
       </el-form-item>
       <el-form-item label="商品推荐：">
         <el-switch
           v-model="productForm.recommandStatus"
-          :active-value="1"
-          :inactive-value="0">
+          :active-value="0"
+          :inactive-value="1">
         </el-switch>
       </el-form-item>
       <el-form-item label="服务保证：">
