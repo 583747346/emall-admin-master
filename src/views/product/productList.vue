@@ -110,7 +110,7 @@
         </el-table-column>
         <el-table-column type="index" label="序号"></el-table-column>
         <el-table-column label="商品图片">
-          <template slot-scope="scope"><img style="height: 60px;width: 60px;" :src="scope.row.albumPics"></template>
+          <template slot-scope="scope"><img style="height: 60px;width: 60px;" :src="scope.row.albumPics || defaultPicture"></template>
         </el-table-column>
         <el-table-column prop="brandName" label="品牌名"></el-table-column>
         <el-table-column prop="productNo" label="商品货号"></el-table-column>
@@ -200,7 +200,7 @@
 </template>
 
 <script>
-
+  import defaultPicture from '@/assets/picture/default/default.png'
   export default {
     name: 'productList',
     data () {
@@ -241,6 +241,9 @@
         checkedItem: [],        //所选的项
         isIndeterminate: false, //用于控制父级复选框的状态
         dataKey: 'id',
+
+        //默认图片
+        defaultPicture: defaultPicture,
       }
     },
     //观察品类表达式的值
