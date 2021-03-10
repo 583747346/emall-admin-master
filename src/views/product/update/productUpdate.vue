@@ -1,5 +1,5 @@
 <template>
-  <product-detais :is-edit='true' :product-id="productId"></product-detais>
+  <product-detais :is-edit='true' :productId="productId"></product-detais>
 </template>
 
 <script>
