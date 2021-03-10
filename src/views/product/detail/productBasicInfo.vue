@@ -18,6 +18,7 @@
       <el-form-item label="商品品牌：" prop="brandId">
         <el-select
           v-model="productForm.brandId"
+          @change="selectBrand"
           placeholder="请选择品牌" clearable>
           <el-option
             v-for="item in brandList"
@@ -114,7 +115,7 @@
             message: '请选择商品分类',
             trigger: 'change'
           }],
-          brandId: [{
+          brandName: [{
             required: true,
             message: '请选择所属品牌',
             trigger: 'blur'
@@ -153,9 +154,11 @@
         if (object != null) {
           if (object.length > 0) {
             this.productForm.productCategoryId = object[object.length - 1]
+            this.productForm.productCategoryName = this.getCateNameById(this.productForm.productCategoryId)
             this.cateId = object[object.length - 1]
           } else {
             this.productForm.productCategoryId = ''
+            this.value.productCategoryName = null
             this.cateId = ''
           }
           this.$emit('returnCateId', this.cateId)
@@ -171,6 +174,19 @@
       this.getProductUnitList()
     },
     methods: {
+      //根据分类id获取分类描述
+      getCateNameById (id) {
+        let name = null
+        for (let i = 0; i < this.productCateOptions.length; i++) {
+          for (let j = 0; j < this.productCateOptions[i].children.length; j++) {
+            if (this.productCateOptions[i].children[j].value === id) {
+              name = this.productCateOptions[i].children[j].name
+              return name
+            }
+          }
+        }
+        return name
+      },
       //获取筛选条件值--分类层级
       getCategoryRank () {
         let _this = this
@@ -249,6 +265,19 @@
         this.clearForm()
       },
 
+      //选择品牌，主要是获取到品牌名
+      selectBrand (value) {
+        let brandName = ''
+        for (let i = 0; i < this.brandList.length; i++) {
+          if (this.brandList[i].id === value) {
+            brandName = this.brandList[i].name
+            break
+          }
+        }
+        this.productForm.brandName = brandName
+      },
+
+      //自己实现清除单位
       clearForm () {
         this.productUnitForm.unit = ''
       },
