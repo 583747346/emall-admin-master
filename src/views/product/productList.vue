@@ -110,7 +110,8 @@
         </el-table-column>
         <el-table-column type="index" label="序号"></el-table-column>
         <el-table-column label="商品图片">
-          <template slot-scope="scope"><img style="height: 60px;width: 60px;" :src="scope.row.albumPics || defaultPicture"></template>
+          <template slot-scope="scope"><img style="height: 60px;width: 60px;"
+                                            :src="scope.row.albumPics || defaultPicture"></template>
         </el-table-column>
         <el-table-column prop="brandName" label="品牌名"></el-table-column>
         <el-table-column prop="productNo" label="商品货号"></el-table-column>
@@ -201,6 +202,7 @@
 
 <script>
   import defaultPicture from '@/assets/picture/default/default.png'
+
   export default {
     name: 'productList',
     data () {
@@ -394,8 +396,17 @@
 
       /******************************状态的更新******************************/
       updateStatus (row, type) {
-        const status = row.status == false ? 0 : 1
-        this.ajaxFn.post({
+        let status = false
+        if (type === 'delete_status') {
+          status = row.deleteStatus
+        } else if (type === 'publish_status') {
+          status = row.publishStatus
+        } else if (type === 'new_status') {
+          status = row.newStatus
+        } else {
+          status = row.recommandStatus
+        }
+        this.ajaxFn.put({
           url: '/emall-goods-service/product/updateStatus'
         }, [row.id, status, type]).then(res => {
           let { data, status } = res
@@ -497,6 +508,11 @@
             message: '已取消删除'
           })
         })
+      },
+
+      //批量导入
+      uploadBatch () {
+
       },
 
       //更新商品信息
