@@ -15,15 +15,16 @@ import subcategory from '../views/category/subcategory'
 import productAttribute from '../views/productAttribute/productAttribute'
 import productSpecsOrParam from '../views/productAttribute/productSpecsOrParam'
 import productAdd from '../views/product/insert/productAdd'
-import productSaleInfo from '../views/product/insert/productSaleInfo'
-import productAttributeInfo from '../views/product/insert/productAttributeInfo'
-import productCollocationInfo from '../views/product/insert/productCollocationInfo'
-import productBasicInfo from '../views/product/insert/productBasicInfo'
+import productSaleInfo from '../views/product/detail/productSaleInfo'
+import productAttributeInfo from '../views/product/detail/productAttributeInfo'
+import productCollocationInfo from '../views/product/detail/productCollocationInfo'
+import productBasicInfo from '../views/product/detail/productBasicInfo'
 import productUnit from '../views/productUnit/productUnit'
 import member from '../views/member/member'
 import memberRank from '../views/member/memberRank'
 import stockList from '../views/stock/stockList'
 import orderList from '../views/order/orderList'
+import productUpdate from '../views/product/update/productUpdate'
 
 Vue.use(VueRouter)
 
@@ -158,6 +159,15 @@ const routes = [
         meta: {
           auth: true,
           title: '商品推荐搭配'
+        }
+      },
+      {
+        path: '/productUpdate',
+        component: productUpdate,
+        name: 'productUpdate',
+        meta: {
+          auth: true,
+          title: '商品更新'
         }
       },
       {
