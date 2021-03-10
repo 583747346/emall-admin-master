@@ -45,7 +45,8 @@
         </div>
       </div>
       <!--数据展示区域-->
-      <el-table :data="roleList" border stripe v-loading="loading" :header-cell-style="{background:'#f0f9eb',color:'black'}">
+      <el-table :data="roleList" border stripe v-loading="loading"
+                :header-cell-style="{background:'#f0f9eb',color:'black'}">
         <el-table-column type="index"></el-table-column>
         <el-table-column prop="code" label="角色code"></el-table-column>
         <el-table-column prop="name" label="角色"></el-table-column>
@@ -456,8 +457,11 @@
       },
 
       //操作--为角色分配资源
-      handleSelectResource(index,row){
-        this.$router.push({path:'/roleResource',query:{roleId:row.id}})
+      handleSelectResource (index, row) {
+        this.$router.push({
+          path: '/roleResource',
+          query: { roleId: row.id }
+        })
       },
     }
   }
