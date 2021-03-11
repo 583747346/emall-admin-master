@@ -1,5 +1,5 @@
 <template>
-  <product-detais :is-edit='true'></product-detais>
+  <product-detais :is-edit='false'></product-detais>
 </template>
 
 <script>
