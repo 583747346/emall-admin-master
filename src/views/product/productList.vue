@@ -115,7 +115,7 @@
         </el-table-column>
         <el-table-column prop="brandName" label="品牌名"></el-table-column>
         <el-table-column prop="productNo" label="商品货号"></el-table-column>
-        <el-table-column prop="categoryName" label="品类"></el-table-column>
+        <el-table-column prop="productCategoryName" label="品类"></el-table-column>
         <el-table-column prop="name" label="商品名"></el-table-column>
         <el-table-column label="单价|市价">
           <template slot-scope="scope">
@@ -154,7 +154,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="审核状态">
+        <el-table-column label="审核状态" align="center">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.verifyStatus=== 0" type='success'>
               已审核
