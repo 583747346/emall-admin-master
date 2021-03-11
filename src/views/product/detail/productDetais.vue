@@ -118,7 +118,7 @@
         showStatus: [true, false, false, false],
         //用于productAttributeinfo组件监听品类改变，加载规格
         categoryId: '',
-        productForm: Object.assign({}, productFieldForm)
+        productForm: Object.assign({}, productFieldForm),
       }
     },
 
@@ -131,15 +131,15 @@
 
     methods: {
 
-      //根据商品货号查看商品信息 TODO
+      //根据商品货号查看商品信息
       getProduct (productId) {
         this.ajaxFn.get({
-          url:'/emall-goods-service/product/'+productId
-        }).then(res=>{
+          url: '/emall-goods-service/product/' + productId
+        }).then(res => {
           let { data, status } = res
           if (status === 200) {
             if (this.ajaxFn.respIsTrue(data)) {
-              this.productForm = data
+              this.productForm = data.data
             }
           }
         })

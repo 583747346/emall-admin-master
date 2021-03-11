@@ -150,7 +150,11 @@
     },
     props: {
       productForm: Object,
-      categoryId: [String]
+      categoryId: [String],
+      isEdit: {
+        type: Boolean,
+        default: false
+      }
     },
     data () {
       return {
@@ -210,7 +214,7 @@
         handler: function (oldValue, newValue) {
           //1.第一次刚进入页面，品类为空，也会执行，这里return掉
           //2.当清空分类下拉框数据，也就是categoryId为空，这里直接return掉
-          if (newValue === '' || this.categoryId === '') {
+          if (!this.isEdit && (newValue === '' || this.categoryId === '')) {
             return
           }
           //根据品类获取规格信息

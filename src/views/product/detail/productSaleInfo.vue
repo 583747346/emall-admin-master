@@ -39,8 +39,7 @@
         </el-switch>
       </el-form-item>
       <el-form-item label="服务保证：">
-        <el-checkbox-group :indeterminate="isIndeterminate" v-model="selectServiceList"
-                           @change="handleCheckedCitiesChange">
+        <el-checkbox-group v-model="selectServiceList" @change="handleCheckedCitiesChange">
           <el-checkbox v-for="service in serviceArray" :label="service" :key="service">{{service}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
@@ -140,7 +139,8 @@
       </el-form-item>
       <el-form-item style="text-align: center">
         <el-button type="danger" size="medium" style="width: 80px" @click="handlePre" icon="el-icon-back"></el-button>
-        <el-button type="success" size="medium" style="width: 80px" @click="handleNext" icon="el-icon-right"></el-button>
+        <el-button type="success" size="medium" style="width: 80px" @click="handleNext"
+                   icon="el-icon-right"></el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -151,20 +151,51 @@
     name: 'productSaleInfo',
     props: {
       productForm: Object,
+      isEdit: {
+        type: Boolean,
+        default: false
+      }
     },
     data () {
       return {
         ajaxFn: new this._AjaxFn(this),
-        selectServiceList: [],
+        // selectServiceList: [],
         serviceArray: ['无忧退货', '快速退款', '免费包邮'],
         isIndeterminate: true,
         //时间范围
-        daterange: null
+        daterange: null,
       }
     },
     created () {
-      //获取会员等级信息
-      this.getMemberRankList()
+      if (!this.isEdit) {      //当是修改时，使用返回的数据绑定
+        //获取会员等级信息
+        this.getMemberRankList()
+      }
+    },
+
+    computed: {
+      //计算所选的服务列表
+      selectServiceList: {
+        get () {
+          let serviceList = []
+          let checkedServiceList = this.productForm.serviceList.split(',')
+          for (let i = 0; i < checkedServiceList.length; i++) {
+            serviceList.push(checkedServiceList[i])
+          }
+          return serviceList
+        },
+        set (checkValue) {
+          let serviceList = []
+          if (checkValue != null && checkValue.length > 0) {
+            for (let i = 0; i < checkValue.length; i++) {
+              serviceList.push(checkValue[i])
+            }
+            this.productForm.serviceList = serviceList.join(',') //用逗号隔开
+          } else {
+            this.productForm.serviceList = null
+          }
+        }
+      }
     },
     methods: {
       //日期选择，分离级联日期到不同字段
