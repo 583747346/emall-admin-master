@@ -2,7 +2,7 @@
   <div class="product-basic">
     <el-form :model="productForm" ref="productInfoForm" label-width="120px" style="width: 600px" size="small"
              :rules="productBasicRules">
-      <el-form-item label="商品分类：" prop="productCategoryId">
+      <el-form-item label="商品分类：" prop="productCategory">
         <el-cascader
           v-model="selectProductCateIds"
           :options="productCateOptions"
@@ -110,12 +110,12 @@
         productUnitSelecter: [],
         //规则校验
         productBasicRules: {
-          productCategoryId: [{
-            required: true,
-            message: '请选择商品分类',
-            trigger: 'change'
-          }],
-          brandName: [{
+          // productCategory: [{
+          //   required: true,
+          //   message: '请选择商品分类',
+          //   trigger: 'blur',
+          // }],
+          brandId: [{
             required: true,
             message: '请选择所属品牌',
             trigger: 'blur'
@@ -145,12 +145,15 @@
     },
     props: {
       productForm: Object,
-      categoryId: [String]
+      categoryId: [String],
+      isEdit: {
+        type: Boolean,
+        default: false
+      }
     },
     //观察某个表达式的值
     watch: {
       selectProductCateIds: function (object) {
-        console.log(object)
         if (object != null) {
           if (object.length > 0) {
             this.productForm.productCategoryId = object[object.length - 1]
@@ -173,18 +176,21 @@
       //获取商品单位
       this.getProductUnitList()
     },
+
     methods: {
       //根据分类id获取分类描述
       getCateNameById (id) {
         let name = null
         for (let i = 0; i < this.productCateOptions.length; i++) {
-          if(this.productCateOptions[i].id === id){
+          if (this.productCateOptions[i].id === id) {
             return this.productCateOptions[i].name
           }
-          for (let j = 0; j < this.productCateOptions[i].children.length; j++) {
-            if (this.productCateOptions[i].children[j].id === id) {
-              name = this.productCateOptions[i].children[j].name
-              return name
+          if (this.productCateOptions[i].children != null) {
+            for (let j = 0; j < this.productCateOptions[i].children.length; j++) {
+              if (this.productCateOptions[i].children[j].id === id) {
+                name = this.productCateOptions[i].children[j].name
+                return name
+              }
             }
           }
         }
@@ -200,13 +206,29 @@
           if (status === 200) {
             if (this.ajaxFn.respIsTrue(data)) {
               _this.productCateOptions = res.data.data
-              for (let i = 0; i < res.data.data.length; i++) {
-                _this.selectProductCateIds.push(data.data[i].id)
+              //当时更新操作的时候，这里需要将该商品id的品类放到selectProductCateIds中
+              if (this.isEdit) {
+                for (let i = 0; i < _this.productCateOptions.length; i++) {
+                  if (_this.productCateOptions[i] === _this.productForm.productCategoryId) {
+                    this.selectProductCateIds.push(_this.productCateOptions[i].id)
+                    break
+                  }
+                  if (_this.productCateOptions[i].children != null) {
+                    for (let j = 0; j < _this.productCateOptions[i].children.length; j++) {
+                      if (_this.productCateOptions[i].children[j].id === _this.productForm.productCategoryId) {
+                        _this.selectProductCateIds.push(_this.productCateOptions[i].id)
+                        _this.selectProductCateIds.push(_this.productCateOptions[i].children[j].id)
+                        break
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         })
       },
+
       //获取品牌列表
       getBrandList () {
         let param = {
